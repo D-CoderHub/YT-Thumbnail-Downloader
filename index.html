@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input { width: 80%; padding: 10px; margin: 10px; }
+        button { padding: 10px 15px; cursor: pointer; margin-top: 10px; }
+        img { margin: 10px; max-width: 100%; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h2>YouTube Thumbnail Downloader</h2>
+    <input type="text" id="videoUrl" placeholder="Enter YouTube Video URL">
+    <button onclick="fetchThumbnail()">Get Thumbnail</button>
+    <div id="thumbnailContainer"></div>
+    <button id="downloadBtn" style="display: none;" onclick="downloadThumbnail()">Download</button>
+
+    <script>
+        let currentImgUrl = "";
+
+        function fetchThumbnail() {
+            let url = document.getElementById("videoUrl").value;
+            let videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+            if (!videoId) return alert("Invalid YouTube URL!");
+
+            currentImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+            document.getElementById("thumbnailContainer").innerHTML = `<img src="${currentImgUrl}" alt="YouTube Thumbnail">`;
+            document.getElementById("downloadBtn").style.display = "block";
+        }
+
+        function downloadThumbnail() {
+            let link = document.createElement("a");
+            link.href = currentImgUrl;
+            link.download = "YouTube_Thumbnail.jpg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
